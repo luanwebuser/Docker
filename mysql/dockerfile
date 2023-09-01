@@ -1,0 +1,9 @@
+FROM mysql:5.6.51
+
+COPY init.sql /docker-entrypoint-initdb.d/
+COPY init-users.sql /docker-entrypoint-initdb.d/
+
+EXPOSE 3310
+
+ENV MYSQL_DATABASE=mydb
+ENV MYSQL_ALLOW_EMPTY_PASSWORD=yes
