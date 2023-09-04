@@ -1,0 +1,73 @@
+{
+    "users":[
+        {
+            "name": "link.dev",
+            "password": "12345678",
+            "tags": ["administrator"]
+        }
+    ],
+    "vhosts": [
+        {
+            "name": "email-evento"
+        }
+    ],
+    "parameters": [],
+    "permissions": [
+        {
+            "user": "link.dev",
+            "vhost": "email-evento",
+            "configure": ".*",
+            "read": ".*",
+            "write": ".*"
+        }
+    ],
+    "policies": [],
+    "exchanges": [
+        {
+            "name": "email-evento",
+            "vhost": "email-evento",
+            "type": "direct",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        }
+    ],
+    "queues": [
+        {
+            "name": "email-evento-envia-email",
+            "vhost": "email-evento",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-dead-letter-exchange": "",
+                "x-dead-letter-routing-key": "email-evento-envia-email.dlq"
+            }
+        },
+        {
+            "name": "email-evento-envia-email.dlq",
+            "vhost": "email-evento",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        }
+    ],
+    "bindings": [
+        {
+            "source": "email-evento",
+            "vhosts": "email-evento",
+            "destination": "email-evento-envia-email",
+            "destination_type": "queue",
+            "routing_key": "",
+            "arguments": {}
+        },
+        {
+            "source": "email-evento",
+            "vhost": "email-evento",
+            "destination": "email-evento-envia-evento.dlq",
+            "destination_type": "queue",
+            "routing_key": "",
+            "arguments": {}
+        }
+    ]
+}

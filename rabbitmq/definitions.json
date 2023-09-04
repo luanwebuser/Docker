@@ -1,0 +1,73 @@
+{
+  "users": [
+    {
+      "name": "dev",
+      "password": "12345678",
+      "tags": ["administrator"]
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "teste"
+    }
+  ],
+  "parameters": [],
+  "permissions": [
+    {
+      "user": "link.dev",
+      "vhost": "teste",
+      "configure": ".*",
+      "read": ".*",
+      "write": ".*"
+    }
+  ],
+  "policies": [],
+  "exchanges": [
+    {
+      "name": "teste",
+      "vhost": "teste",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "queues": [
+    {
+      "name": "fila-teste",
+      "vhost": "teste",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "",
+        "x-dead-letter-routing-key": "fila-teste.dlq"
+      }
+    },
+    {
+      "name": "fila-teste.dlq",
+      "vhost": "teste",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "teste",
+      "vhost": "teste",
+      "destination": "fila-teste",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "teste",
+      "vhost": "teste",
+      "destination": "fila-teste.dlq",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    }
+  ]
+}
