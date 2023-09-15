@@ -8,15 +8,19 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libpng-dev \
     libjpeg-dev \
-    libfreetype6-dev
+    libfreetype6-dev \
+    default-libmysqlclient-dev
+
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-install pdo_mysql gd zip mbstring
 
 RUN a2enmod rewrite
 
-# COPY ./php.ini /etc/php/5.6/apache2/php.ini
+COPY timezone.ini /usr/local/etc/php/conf.d/timezone.ini
 
-COPY ./project /var/www/html/
+RUN docker-php-ext-install mysqli
 
-EXPOSE 8181
+EXPOSE 8080
 
 WORKDIR /var/www/html
 
